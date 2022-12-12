@@ -1,0 +1,36 @@
+
+curPos = [rowMax, colMax]
+visit[curPos] = true
+stack<int> dirStore
+stack<string> pathStore
+
+for i = 0 to 3:
+    dirStore.push(i)
+
+while (stack not empty):
+    dir = dirStore.peek
+    dirStore.pop()
+
+    if (dir >= 4)
+        //return after fail
+        go(reverse[dir % 4]
+        curPos -= traverse[dir % 4]
+        pathStore.pop()
+    else
+        status = go(traverse[dir])
+        if (status = true)
+            //can discover
+            curPos += traverse[dir]
+            pathStore.push(traverse[dir])
+
+            //add to stack
+            dirStore.push(dir + 4)
+            for direction:
+                newPos = curPos + traverse[dir]
+                if (visit[newPos] = false)
+                    visit[newPos] = true
+                    dirStore.push(dir)
+        else if (status = win)
+            pathStore.push(traverse[dir])
+            break
+
