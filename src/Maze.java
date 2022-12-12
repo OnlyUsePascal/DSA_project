@@ -151,15 +151,14 @@ class Robot {
                     }
 
                     if (result.equals("win")) {
+                        valid = true;
                         paths.push(new Direction(directions[i], directions_traverse[i]));
                         break;
                     }
 
                 }
             }
-            if (result.equals("win")) {
-                break;
-            }
+            
             if (valid == false) {
                 Direction direct = paths.peek();
                 paths.pop();
