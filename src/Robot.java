@@ -85,11 +85,7 @@ public class Robot {
         }
 
         //get path
-//        while(!pathStore.isEmpty()){
-//            System.out.println(pathStore.peek());
-//            pathStore.pop();
-//        }
-
+        getPath();
     }
 
 
@@ -110,47 +106,4 @@ public class Robot {
         }
     }
 
-
-    void findPath(int curX, int curY){
-//        System.out.println("===");
-
-        //travel 4 direction from current cell
-        for (int i = 0 ; i < 4; i++) {
-            //new position if going to direction
-            int newX, newY;
-            newX = curX + dRow[i];
-            newY = curY + dCol[i];
-
-            if (visit[newX][newY] == false) {
-                visit[newX][newY] = true;
-
-                status = maze.go(traverse[i]);
-
-                if (status.equals("true")) {
-                    //can explore more
-//                    System.out.println("Push to track " + traverse[i]);
-                    pathStore.push(traverse[i]);
-                    findPath(newX, newY);
-
-                    //after explore, ends if win, otherwise return to current place
-                    if (status.equals("win")) {
-                        return;
-                    }
-
-                    //always able to return to current place
-//                    System.out.println("Remove from track " + traverse[i]);
-                    maze.go(reverse[i]);
-                    pathStore.pop();
-                }
-
-                if (status.equals("win")) {
-                    //record last step then terminate
-                    pathStore.push(traverse[i]);
-//                    System.out.println("Push to track " + traverse[i]);
-                    return;
-                }
-            }
-
-        }
-    }
 }
