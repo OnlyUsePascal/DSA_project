@@ -109,7 +109,7 @@ public class Robot {
                 else if (status.equals("win")){
                     //exit gate found, save last step then terminate
                     pathStore.push(traverse[dirIdx]);
-                    break;
+                    return;
                 }
             }
         }

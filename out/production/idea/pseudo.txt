@@ -1,0 +1,38 @@
+curPos = [rowMax, colMax] //middle of virtual field
+<stack> dirStore //storing direction for dfs algorithm
+
+for each direction: //UP, RIGHT, DOWN, LEFT
+    newPos = curPos + direction //new position if move to that direction
+    mark newPos as visited
+    dirStore.push(direction)
+
+while (dirStore is not empty):
+    current_direction = dirStore.peek()
+    dirStore.pop()
+
+    if (current_direction is marked)
+        //the robot failed to escape after go to this direction
+        //so it should return back to previous cell
+        maze.go(opposite_current_direction)
+        curPos = curPos + opposite_current_direction
+
+    else:
+        //the cell is newly discovered
+        status = maze.go(current_direction)
+        if (status = true):
+            //cell is empty, can travel further
+            curPos = curPos + current_direction
+
+            //add adjacent unvisited cell to stack
+            dirStore.push(marked_current_direction) //mark direction in case robot can go back if it fails
+            for each direction:
+                newPos = curPos + current_direction
+                if (newPos is not visited):
+                    mark newPos as visited
+                    dirStore.push(direction)
+
+        else if (status = win):
+            //terminate program
+            return
+
+mark curPos as visited
