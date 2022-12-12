@@ -7,8 +7,6 @@ public class Maze {
     int steps;
 
     public Maze() {
-        // Note: in my real test, I will create much larger
-        // and more complicated map
         rows = 4;
         cols = 5;
         map = new String[rows];
@@ -22,6 +20,7 @@ public class Maze {
     }
 
     public String go(String direction) {
+//        System.out.println(direction + " " + (steps + 1));
         if (!direction.equals("UP") &&
                 !direction.equals("DOWN") &&
                 !direction.equals("LEFT") &&

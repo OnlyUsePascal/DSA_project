@@ -12,7 +12,7 @@ public class LinkedListStack<T> {
   }
 
   private int size;
-  private Node<T> head;
+  public Node<T> head;
 
   public LinkedListStack() {
     size = 0;
