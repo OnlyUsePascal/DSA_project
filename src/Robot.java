@@ -1,19 +1,20 @@
 import java.io.FileNotFoundException;
 
 public class Robot {
-    //order: UP, RIGHT, DOWN, LEFT
     boolean[][] visit;
     int[] dRow, dCol;
+    int rowMax, colMax;
     String[] traverse, reverse;
     Maze maze;
     String status;
     LinkedListStack<String> pathStore ;
     LinkedListStack<Integer> dirStore;
 
+
     public void navigate() throws FileNotFoundException{
         //virutal field
-        int rowMax = 1005, widthMax = 1005;
-        visit = new boolean[rowMax * 2][widthMax * 2]; //twice as maximum size of maze
+        rowMax = 1005; colMax = 1005; //max size of the maze
+        visit = new boolean[rowMax * 2][colMax * 2]; //twice as maximum size of maze
 
         //values for travelling direction
         dRow = new int[]{-1,0,1,0};
@@ -28,61 +29,7 @@ public class Robot {
         dirStore = new LinkedListStack<Integer>();
 
         //path finding
-        int curRow = rowMax, curCol = widthMax;
-        visit[curRow][curCol] = true;
-
-        //intialize
-        for (int i = 0 ; i < 4; i++){
-            dirStore.push(i);
-        }
-
-        while (!dirStore.isEmpty()){
-            //debug
-//            System.out.println("--");
-//            LinkedListStack.Node<Integer> s = dirStore.head;
-//            while (s != null){
-//                if (s.data >= 4) System.out.print(reverse[s.data % 4] + "* ");
-//                else System.out.print(traverse[s.data] + " ");
-//                s = s.next;
-//            }
-//            System.out.println("");
-
-            int dirIdx = dirStore.peek();
-            dirStore.pop();
-
-            if (dirIdx >= 4){
-                //travel fail, lets go back
-                maze.go(reverse[dirIdx % 4]);
-                curRow -= dRow[dirIdx % 4];
-                curCol -= dCol[dirIdx % 4];
-                pathStore.pop();
-            }
-            else{
-                status = maze.go(traverse[dirIdx]);
-                if (status.equals("true")){
-                    //can discover from this cell
-                    curRow += dRow[dirIdx];
-                    curCol += dCol[dirIdx];
-                    pathStore.push(traverse[dirIdx]);
-
-                    //add adjacent cell to stack
-                    dirStore.push(dirIdx + 4); //In case fail after travel
-                    for (int i = 0 ; i < 4; i++){
-                        int newRow = curRow + dRow[i],
-                            newCol = curCol + dCol[i];
-                        if (!visit[newRow][newCol]){
-                            visit[newRow][newCol] = true;
-                            dirStore.push(i);
-                        }
-                    }
-                }
-                else if (status.equals("win")){
-                    //exit gate found, save last step then terminate
-                    pathStore.push(traverse[dirIdx]);
-                    break;
-                }
-            }
-        }
+        findPath();
 
         //get path
         getPath();
@@ -106,4 +53,63 @@ public class Robot {
         }
     }
 
+
+    void findPath(){
+        int curRow = rowMax, curCol = colMax;
+        visit[curRow][curCol] = true;
+
+        //intialize
+        for (int i = 0 ; i < 4; i++){
+            dirStore.push(i);
+        }
+
+        while (!dirStore.isEmpty()){
+            //debug
+//            System.out.println("--");
+//            LinkedListStack.Node<Integer> s = dirStore.head;
+//            while (s != null){
+//                if (s.data >= 4) System.out.print(reverse[s.data % 4] + "* ");
+//                else System.out.print(traverse[s.data] + " ");
+//                s = s.next;
+//            }
+//            System.out.println("");
+
+            int dirIdx = dirStore.peek();
+            dirStore.pop();
+
+            if (dirIdx >= 4){
+                //travel fail, lets go back
+                dirIdx %= 4;
+                maze.go(reverse[dirIdx]);
+                curRow -= dRow[dirIdx];
+                curCol -= dCol[dirIdx];
+                pathStore.pop();
+            }
+            else{
+                status = maze.go(traverse[dirIdx]);
+                if (status.equals("true")){
+                    //can discover from this cell
+                    curRow += dRow[dirIdx];
+                    curCol += dCol[dirIdx];
+                    pathStore.push(traverse[dirIdx]);
+
+                    //add adjacent cell to stack
+                    dirStore.push(dirIdx + 4); //In case fail after travel
+                    for (int i = 0 ; i < 4; i++){
+                        int newRow = curRow + dRow[i],
+                                newCol = curCol + dCol[i];
+                        if (!visit[newRow][newCol]){
+                            visit[newRow][newCol] = true;
+                            dirStore.push(i);
+                        }
+                    }
+                }
+                else if (status.equals("win")){
+                    //exit gate found, save last step then terminate
+                    pathStore.push(traverse[dirIdx]);
+                    break;
+                }
+            }
+        }
+    }
 }
