@@ -16,9 +16,9 @@ public class Maze {
     int steps;
 
     public Maze() throws FileNotFoundException {
-        robotRow = 998;
+        robotRow = 4;
         robotCol = 1;
-        File file = new File("src/temp1/Maze.txt");
+        File file = new File("src/Maze.txt");
         Scanner reader = new Scanner(file);
         String line;
 
@@ -88,7 +88,7 @@ public class Maze {
 
         long startTime = System.currentTimeMillis();
 
-        (new temp1.Robot()).navigate();
+        (new Robot()).navigate();
 
         long stopTime = System.currentTimeMillis();
         System.out.println("Runtime: " + (stopTime - startTime) + "ms");
