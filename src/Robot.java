@@ -1,10 +1,17 @@
 public class Robot {
+    //virutal field
     boolean[][] visit;
+
+    //direction
     int[] dRow, dCol;
     int rowMax, colMax;
     String[] traverse, reverse;
+
+    //maze
     Maze maze;
     String status;
+
+    //storing tools for path finding
     LinkedListStack<String> pathStore ;
     LinkedListStack<Integer> dirStore;
 
@@ -64,23 +71,14 @@ public class Robot {
             dirStore.push(i);
         }
 
+        //dfs algorithm
         while (!dirStore.isEmpty()){
-            //debug
-//            System.out.println("--");
-//            LinkedListStack.Node<Integer> s = dirStore.head;
-//            while (s != null){
-//                if (s.data >= 4) System.out.print(reverse[s.data % 4] + "* ");
-//                else System.out.print(traverse[s.data] + " ");
-//                s = s.next;
-//            }
-//            System.out.println("");
-
+            //get latest instruction
             int dirIdx = dirStore.peek();
             dirStore.pop();
 
             if (dirIdx >= 4){
                 //travel fail, lets go back
-                System.out.print("*");
                 dirIdx %= 4;
                 maze.go(reverse[dirIdx]);
                 curRow -= dRow[dirIdx];
@@ -88,9 +86,11 @@ public class Robot {
                 pathStore.pop();
             }
             else{
+                //this cell is visited for first time
                 status = maze.go(traverse[dirIdx]);
+
                 if (status.equals("true")){
-                    //can discover from this cell
+                    //can discover further from this cell
                     curRow += dRow[dirIdx];
                     curCol += dCol[dirIdx];
                     pathStore.push(traverse[dirIdx]);

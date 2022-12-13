@@ -20,7 +20,6 @@ public class Maze {
     }
 
     public String go(String direction) {
-        System.out.println(direction);
         if (!direction.equals("UP") &&
                 !direction.equals("DOWN") &&
                 !direction.equals("LEFT") &&
