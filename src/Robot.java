@@ -80,6 +80,7 @@ public class Robot {
 
             if (dirIdx >= 4){
                 //travel fail, lets go back
+                System.out.print("*");
                 dirIdx %= 4;
                 maze.go(reverse[dirIdx]);
                 curRow -= dRow[dirIdx];

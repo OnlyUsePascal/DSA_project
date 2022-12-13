@@ -8,19 +8,19 @@ public class Maze {
 
     public Maze() {
         rows = 4;
-        cols = 5;
+        cols = 4;
         map = new String[rows];
-        map[0] = ".....";
-        map[1] = ".   X";
-        map[2] = ".   .";
-        map[3] = ".....";
+        map[0] = "....";
+        map[1] = "..X.";
+        map[2] = ".  .";
+        map[3] = "....";
         robotRow = 2;
-        robotCol = 1;
+        robotCol = 2;
         steps = 0;
     }
 
     public String go(String direction) {
-//        System.out.println(direction + " " + (steps + 1));
+        System.out.println(direction);
         if (!direction.equals("UP") &&
                 !direction.equals("DOWN") &&
                 !direction.equals("LEFT") &&

@@ -1,11 +1,13 @@
 curPos = [rowMax, colMax] //middle of virtual field
 <stack> dirStore //storing direction for dfs algorithm
 
+//initialize stack with first 4 direction
 for each direction: //UP, RIGHT, DOWN, LEFT
     newPos = curPos + direction //new position if move to that direction
     mark newPos as visited
     dirStore.push(direction)
 
+//dfs
 while (dirStore is not empty):
     current_direction = dirStore.peek()
     dirStore.pop()
@@ -15,6 +17,7 @@ while (dirStore is not empty):
         //so it should return back to previous cell
         maze.go(opposite_current_direction)
         curPos = curPos + opposite_current_direction
+        pathStore.pop()
 
     else:
         //the cell is newly discovered
@@ -35,4 +38,95 @@ while (dirStore is not empty):
             //terminate program
             return
 
+
+==================
+dfs without recursion
+
+curPos = [curRow, curCol] //position in virutal field
+<stack> dirStore
+
+//initialize
 mark curPos as visited
+for each direction k_i:
+    newPos = curPos + k_i //position if go to that direction
+    mark newPos as visited in virtual field
+    dirStore.push(k_i)
+
+//dfs
+while (dirStore is not empty):
+    latest_direction = dirStore.peek()
+    dirStore.pop()
+
+    if (latest_direction is marked):
+        //travel fails, return back to previous cell by going opposite
+        maze.go(opposite_latest_direction)
+        curPos -= latest_direction
+
+    else:
+        //cell is visited for first time
+        status = maze.go(latest_direction)
+
+        if (stauts = true): //cell is empty
+            curPos += latest_direction
+
+            dirStore.push(marked_latest_direction) //robot can return to previous cell in case it fails
+            for each direction k_i:
+                newPos = curPos + k_i
+                if (newPos is not visited):
+                    mark newPos as vistied
+                    dirStore.push(k_i)
+
+        else if (status = win): //cell contain gate
+            program terminates
+
+
+===================
+curPos = [curRow, curCol] //position in virutal field
+<stack> dirStore
+<stack> pathStore
+
+...
+    if (latest_direction is marked):
+        //travel fails, return back to previous cell by going opposite
+        maze.go(opposite_latest_direction)
+        curPos -= latest_direction
+        pathStore.pop() //retreat the step
+...
+    if (stauts = true): //cell is empty
+        curPos += latest_direction
+        pathStore.push(latest_direction) //robot moved to new position
+...
+    else if (status = win): //cell contain gate
+        pathStore.push(latest_direction) //add one final step
+        program terminates
+
+
+===
+...
+stack<String> pathStore
+...
+
+void getPath():
+	String[] path //store instruction
+	for i from (length(pathStore) - 1) to 0:
+		path[i] = pathStore.peek()
+		pathStore.pop()
+
+	//print out path to user
+	for instruction in path:
+	    print(instruction)
+
+=====
+...
+stack<String> pathStore
+...
+
+void getPath():
+	String[] path //store instruction
+	for i from (length(pathStore) - 1) to 0:
+		path[i] = pathStore.peek()
+		pathStore.pop()
+
+	//print out path to user
+	for instruction in path:
+	    print(instruction)

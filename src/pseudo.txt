@@ -1,11 +1,13 @@
 curPos = [rowMax, colMax] //middle of virtual field
 <stack> dirStore //storing direction for dfs algorithm
 
+//initialize stack with first 4 direction
 for each direction: //UP, RIGHT, DOWN, LEFT
     newPos = curPos + direction //new position if move to that direction
     mark newPos as visited
     dirStore.push(direction)
 
+//dfs
 while (dirStore is not empty):
     current_direction = dirStore.peek()
     dirStore.pop()
@@ -15,6 +17,7 @@ while (dirStore is not empty):
         //so it should return back to previous cell
         maze.go(opposite_current_direction)
         curPos = curPos + opposite_current_direction
+        pathStore.pop()
 
     else:
         //the cell is newly discovered
@@ -34,4 +37,29 @@ while (dirStore is not empty):
         else if (status = win):
             //terminate program
             return
+
+
+void push(data):
+    Node newNode
+    store data to newNode
+    newNode.next = head
+    head = newNode
+
+class LinkedListStack:
+    class Node:
+        data
+        Node next
+
+    Node head
+    int size
+
+
+    void LinkedListStack(): //initialize, stack is blank
+        head = null
+        size = 0
+
+
+
+
+
 
