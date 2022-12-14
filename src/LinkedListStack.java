@@ -1,4 +1,8 @@
-// Singly Linked List-based implementation of stack
+//This implementationa belongs to lecturer's resources:
+//https://github.com/TriDang/cosc2658-2022-s3
+
+//Singly Linked List-based implementation of stack
+
 public class LinkedListStack<T> {
   // this class is used as a container of data
   static class Node<T> {
